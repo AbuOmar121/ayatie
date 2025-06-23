@@ -1,28 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Clusters {
-  final String cid;
-  final String cname;
+class Ayat {
+  final String aid;
+  final int surahNo;
+  final int ayahNo;
 
-  Clusters({
-    required this.cid,
-    required this.cname,
+  Ayat({
+    required this.aid,
+    required this.surahNo,
+    required this.ayahNo,
   });
 
-  factory Clusters.fromFirestore(
+  factory Ayat.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions? options,
       ) {
     final data = snapshot.data()!;
-    return Clusters(
-      cid: snapshot.id,
-      cname: data['cname'] ?? '',
+    return Ayat(
+      aid: snapshot.id,
+      surahNo: data['surahNo'] ?? '',
+      ayahNo: data['ayahNo'] ?? '',
     );
   }
 
-  factory Clusters.fromDocumentSnapshot(DocumentSnapshot snapshot) {
+  factory Ayat.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     if (snapshot.data() is Map<String, dynamic>) {
-      return Clusters.fromFirestore(
+      return Ayat.fromFirestore(
         snapshot as DocumentSnapshot<Map<String, dynamic>>,
         null,
       );
@@ -32,7 +35,8 @@ class Clusters {
 
   Map<String, dynamic> toMap() {
     return {
-      'cname': cname,
+      'surahNo': surahNo,
+      'ayahNo': ayahNo,
     };
   }
 }
