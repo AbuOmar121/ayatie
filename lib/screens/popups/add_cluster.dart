@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/firebase/models/clusters_model.dart';
-import 'package:flutter_application_2/firebase/services/cluster_service.dart';
+// import 'package:flutter_application_2/backend/spring/models/clusters_model.dart';
+// import 'package:flutter_application_2/backend/spring/services/clusters_service.dart';
+import 'package:flutter_application_2/backend/firebase/models/clusters_model.dart';
+import 'package:flutter_application_2/backend/firebase/services/cluster_service.dart';
 
 void showAddClusterDialog(BuildContext context, {Clusters? cluster, Function? onSuccess}) {
   final TextEditingController _controller =
@@ -33,14 +35,11 @@ void showAddClusterDialog(BuildContext context, {Clusters? cluster, Function? on
               if (cname.isNotEmpty) {
                 if (cluster == null) {
                   // Add
-                  final newCluster = Clusters(cid: '', cname: cname);
+                  final newCluster = Clusters(cid: cluster!.cid, cname: cname);
                   await ClustersService().addCluster(newCluster);
                 } else {
                   // Update
-                  await ClustersService().updateCluster(
-                    cluster.cid,
-                    {'cname': cname},
-                  );
+
                 }
 
                 Navigator.of(context).pop();

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_2/firebase/models/ayat_model.dart';
+import 'package:flutter_application_2/backend/firebase/models/ayat_model.dart';
 
 class AyatService{
   final CollectionReference<Map<String, dynamic>> ayatRef =

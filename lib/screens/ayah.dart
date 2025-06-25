@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/firebase/models/clusters_model.dart';
+// import 'package:flutter_application_2/backend/spring/models/clusters_model.dart';
+import 'package:flutter_application_2/backend/firebase/models/clusters_model.dart';
 import 'package:flutter_application_2/screens/popups/add_ayah.dart';
-import 'package:flutter_application_2/screens/popups/add_cluster.dart';
 
 class Ayah extends StatefulWidget {
   final Clusters c;
@@ -33,7 +33,16 @@ class _AyahState extends State<Ayah> {
         ),
         actions: [
           IconButton(
-            onPressed: () =>showAddAyahDialog(context),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => SurahAyahDialog(
+                  onSelected: (surahNo, surahName, ayahNo) {
+
+                  },
+                ),
+              );
+            },
             icon: Icon(Icons.add, color: Color(0xFFFFFFFF), size: 30),
           ),
         ],

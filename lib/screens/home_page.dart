@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/firebase/models/clusters_model.dart';
-import 'package:flutter_application_2/firebase/services/cluster_service.dart';
 import 'package:flutter_application_2/screens/ayah.dart';
+// import 'package:flutter_application_2/screens/popups/AyatListScreen.dart';
+import 'package:flutter_application_2/backend/firebase/services/cluster_service.dart';
+import 'package:flutter_application_2/backend/firebase/models/clusters_model.dart';
+// import 'package:flutter_application_2/backend/spring/services/clusters_service.dart';
+// import 'package:flutter_application_2/backend/spring/models/clusters_model.dart';
 import 'package:flutter_application_2/screens/popups/add_cluster.dart';
 import 'package:flutter_application_2/screens/splash.dart';
 import 'package:flutter_application_2/screens/to_firebase.dart';
@@ -42,17 +45,25 @@ class _HomePageState extends State<HomePage> {
               MaterialPageRoute(builder: (context) => HomeScreen()),
             );
           },
-          icon: Icon(Icons.add, color: Color(0xFFFFFFFF), size: 30),
+          icon: Icon(Icons.cancel_outlined, color: Color(0xFFFFFFFF), size: 30),
         ),
       ),
       body: StreamBuilder<List<Clusters>>(
+        // stream: service.getAllClusters(Duration(seconds: 1)),
         stream: service.getClusters(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: SplashDialog());
           }
-          if (snapshot.data == null) {
-            return Center(child: Text("there is no Clusters"));
+
+          if (snapshot.hasError) {
+            return Center(child: Text('حدث خطأ: ${snapshot.error}'));
+          }
+
+          final clusters = snapshot.data;
+
+          if (clusters == null || clusters.isEmpty) {
+            return Center(child: Text("لا يوجد Clusters"));
           }
 
           final items = snapshot.data!;
@@ -93,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                                 );
                               },
                               title: Text(
-                                item.cname,
+                                '${item.cname}',
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -113,7 +124,6 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      service.deleteCluster(item.cid);
                                     },
                                     icon: Icon(Icons.delete, color: Colors.red),
                                   ),
